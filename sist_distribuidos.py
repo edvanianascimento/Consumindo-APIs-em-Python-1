@@ -42,23 +42,34 @@ if __name__ == '__main__':
 
 
 #ex 2
-
 import requests
+
+enderecos = []
+
 url = 'https://viacep.com.br/ws/'
-ceps = ['30140071', '30140072', '30140073', '30140074', '30140075']
-formato = '/xml/'
+formato = '/json/'
 
-for cep in ceps:
+NUMERO_DE_REQUISICOES = 5
 
+
+def consultar_cep(cep):
   r = requests.get(url + cep + formato)
 
   if (r.status_code == 200):
-    print()
-    print('JSON : ', r.text)
-    print()
-
+    return r.json()
   else:
-    print('Nao houve sucesso na requisicao.')
+    return None
+
+
+if __name__ == '__main__':
+  cep = int(input('Digite o CEP: '))
+
+  for i in range(NUMERO_DE_REQUISICOES):
+    enderecos.append(consultar_cep(str(cep)))
+    cep = cep + 1
+
+  for endereco in enderecos:
+    print(endereco)
 
 #ex: 3
 import requests
