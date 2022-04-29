@@ -12,16 +12,34 @@ Exercicios parte 2
 #ex: 1
 
 import requests
+
+enderecos = []
+
 url = 'https://viacep.com.br/ws/'
-cep = '30140071'
-formato = '/xml/'
-r = requests.get(url + cep + formato)
-if (r.status_code == 200):
-  print()
-  print('JSON : ', r.text)
-  print()
-else:
-  print('Nao houve sucesso na requisicao.')
+formato = '/json/'
+
+NUMERO_DE_REQUISICOES = 5
+
+
+def consultar_cep(cep):
+  r = requests.get(url + cep + formato)
+
+  if (r.status_code == 200):
+    return r.json()
+  else:
+    return None
+
+
+if __name__ == '__main__':
+  cep = int(input('Digite o CEP: '))
+
+  for i in range(NUMERO_DE_REQUISICOES):
+    enderecos.append(consultar_cep(str(cep)))
+    cep = cep + 1
+
+  for endereco in enderecos:
+    print(endereco)
+
 
 #ex 2
 
